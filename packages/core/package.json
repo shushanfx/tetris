@@ -4,7 +4,6 @@
   "main": "dist/index.cjs.js",
   "module": "dist/index.es.js",
   "types": "./dist/index.d.ts",
-  "type": "module",
   "license": "MIT",
   "scripts": {
     "build": "rollup -c",

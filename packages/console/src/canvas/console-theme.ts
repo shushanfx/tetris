@@ -1,4 +1,4 @@
-import { AbstractTheme, Point } from '@tetris/core';
+import { AbstractTheme, Point } from '@shushanfx/tetris-core';
 import { toFullNumber } from '../util';
 
 export class ConsoleTheme extends AbstractTheme {

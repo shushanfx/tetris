@@ -1,8 +1,9 @@
 import { Game, Dimension, ColorFactory } from '@shushanfx/tetris-core';
-import { ConsoleCanvas, Color, ConsoleColorTheme } from './index';
+import { ConsoleCanvas, Color, ConsoleTheme } from './index';
+import { TTYCanvas } from './canvas/tty-canvas';
 
-const theme = new ConsoleColorTheme();
-const canvas = new ConsoleCanvas(theme, {
+const theme = new ConsoleTheme();
+const canvas = new TTYCanvas(theme, {
   isHideOuter: true
 });
 const dimension = new Dimension(10, 20);
