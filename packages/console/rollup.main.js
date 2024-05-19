@@ -5,7 +5,7 @@ module.exports = {
   input: 'src/index.main.ts',
   output: {
     file: 'dist/index.main.js',
-    format: 'esm',
+    format: 'cjs',
     sourcemap: true,
   },
   plugins: [
