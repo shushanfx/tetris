@@ -19,12 +19,14 @@ export interface ConsoleCanvasOptions {
   rightWidth?: number;
   isHideOuter?: boolean;
   isHideHelper?: boolean;
+  blockChar?: string;
 }
 
 export class ConsoleCanvas extends AbstractCanvas {
   rightWidth: number = 8;
   isHideOuter: boolean = false;
   options?: ConsoleCanvasOptions;
+  blockChar: string = "口";
   private updateTimer: any = 0;
   helpMessages = [
     "操作说明：",
@@ -45,6 +47,9 @@ export class ConsoleCanvas extends AbstractCanvas {
     }
     if (options && options.isHideOuter) {
       this.isHideOuter = options.isHideOuter;
+    }
+    if (options && options.blockChar) {
+      this.blockChar = options.blockChar;
     }
   }
   render(): void {
@@ -137,7 +142,7 @@ export class ConsoleCanvas extends AbstractCanvas {
             ? current?.points.find((p) => p.x === x && p.y === y)
             : null;
           if (currentPoint || !point.isEmpty) {
-            let consoleChar = new ConsoleChar("口");
+            let consoleChar = new ConsoleChar(this.blockChar);
             this.theme.blockPointStyle(consoleChar, currentPoint || point);
             row += consoleChar.ch;
           } else {
@@ -165,7 +170,7 @@ export class ConsoleCanvas extends AbstractCanvas {
             for (let x = xStart; x <= xEnd; x++) {
               const point = next.points.find((p) => p.x === x && p.y === y);
               let consoleChar: ConsoleChar | null = point
-                ? new ConsoleChar("口")
+                ? new ConsoleChar(this.blockChar)
                 : null;
               if (point) {
                 this.theme.nextPointStyle(consoleChar, point);
