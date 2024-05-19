@@ -22,10 +22,11 @@ export interface ConsoleCanvasOptions {
 }
 
 export class ConsoleCanvas extends AbstractCanvas {
-  private rightWidth: number = 8;
-  private options?: ConsoleCanvasOptions;
+  rightWidth: number = 8;
+  isHideOuter: boolean = false;
+  options?: ConsoleCanvasOptions;
   private updateTimer: any = 0;
-  private helpMessages = [
+  helpMessages = [
     "操作说明：",
     "暂停：空格键",
     "退出：Ｐ键",
@@ -41,6 +42,9 @@ export class ConsoleCanvas extends AbstractCanvas {
     this.options = options;
     if (options && options.rightWidth && options.rightWidth > 0) {
       this.rightWidth = this.options!.rightWidth!;
+    }
+    if (options && options.isHideOuter) {
+      this.isHideOuter = options.isHideOuter;
     }
   }
   render(): void {
@@ -59,7 +63,7 @@ export class ConsoleCanvas extends AbstractCanvas {
     return consoleChar.ch;
   }
   private getOutterLine(str?: string): string {
-    if (this.options && this.options.isHideOuter) {
+    if (this.isHideOuter) {
       return "";
     }
     const consoleChar = new ConsoleChar(str || "|");
@@ -89,7 +93,7 @@ export class ConsoleCanvas extends AbstractCanvas {
       const { score, current, next } = stage;
       const { xSize, ySize } = dimension;
       const outLength = 1 + 1 + xSize + 1 + this.rightWidth + 1;
-      if (!this.options || !this.options.isHideOuter) {
+      if (!this.isHideOuter) {
         const outLine1 = this.getOutterLine(
           "+-" +
             this.createChar(xSize, "－") +
@@ -205,7 +209,7 @@ export class ConsoleCanvas extends AbstractCanvas {
         this.createChar(this.rightWidth) +
         this.getOutterLine();
       printArray.push(line2);
-      if (!this.options || !this.options.isHideOuter) {
+      if (!this.isHideOuter) {
         const outLine2 = this.getOutterLine(
           "+-" +
             this.createChar(xSize, "－") +
@@ -250,9 +254,8 @@ export class ConsoleCanvas extends AbstractCanvas {
       } else if (key === "r") {
         game.start();
       } else if (key === "o") {
-        if (this.options) {
-          this.options.isHideOuter = !this.options.isHideOuter;
-        }
+        this.isHideOuter = !this.isHideOuter;
+        this.update();
       }
     }
   }
