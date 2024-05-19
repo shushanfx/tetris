@@ -12,6 +12,10 @@ module.exports = {
     json(),
     typescript({
       tsconfig: 'tsconfig.json',
+      compilerOptions: {
+        module: 'ESNext',
+        moduleResolution: 'node',
+      }
     })
   ],
 };
