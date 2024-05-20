@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "@shushanfx/tetris-core": "*",
-    "colors": "1.4.0"
+    "colors": "1.4.0",
+    "commander": "^12.1.0"
   }
 }

@@ -1,4 +1,4 @@
-import { ColorFactory, Point } from '@shushanfx/tetris-core';
+import { Point } from '@shushanfx/tetris-core';
 import { ConsoleTheme } from './console-theme';
 import { ConsoleChar } from './console-canvas';
 import {
@@ -15,10 +15,9 @@ import {
 } from 'colors';
 
 export enum Color {
-  black = 'black',
   red = 'red',
   green = 'green',
-  yellow = 'yello',
+  yellow = 'yellow',
   blue = 'blue',
   magenta = 'magenta',
   cyan = 'cyan',
@@ -28,10 +27,9 @@ export enum Color {
 }
 
 const COLORS_FUNCTION = {
-  'black': black,
   'red': red,
   'green': green,
-  'yello': yellow,
+  'yellow': yellow,
   'blue': blue,
   'magenta': magenta,
   'cyan': cyan,
@@ -58,7 +56,7 @@ export class ConsoleColorTheme extends ConsoleTheme {
     return this.blockPointStyle(block, point);
   }
   statusStyle(status: ConsoleChar): void {
-    status.ch = red(status.ch);   
+    status.ch = red(status.ch);
   }
   scoreStyle(score: ConsoleChar): void {
     score.ch = green(score.ch);
