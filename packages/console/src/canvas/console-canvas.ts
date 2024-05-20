@@ -28,6 +28,8 @@ export class ConsoleCanvas extends AbstractCanvas {
   options?: ConsoleCanvasOptions;
   blockChar: string = "口";
   private updateTimer: any = 0;
+  private exitMessage: string = '';
+  private exitChar: string = '';
   helpMessages = [
     "操作说明：",
     "暂停：空格键",
@@ -101,10 +103,10 @@ export class ConsoleCanvas extends AbstractCanvas {
       if (!this.isHideOuter) {
         const outLine1 = this.getOutterLine(
           "+-" +
-            this.createChar(xSize, "－") +
-            "-" +
-            this.createChar(this.rightWidth, "－") +
-            "+"
+          this.createChar(xSize, "－") +
+          "-" +
+          this.createChar(this.rightWidth, "－") +
+          "+"
         );
         printArray.push(outLine1);
       }
@@ -217,14 +219,19 @@ export class ConsoleCanvas extends AbstractCanvas {
       if (!this.isHideOuter) {
         const outLine2 = this.getOutterLine(
           "+-" +
-            this.createChar(xSize, "－") +
-            "-" +
-            this.createChar(this.rightWidth, "－") +
-            "+"
+          this.createChar(xSize, "－") +
+          "-" +
+          this.createChar(this.rightWidth, "－") +
+          "+"
         );
         printArray.push(outLine2);
       }
-      console.info(this.handleOutput(outLength, printArray).join("\n") + '\n');
+      if (this.exitMessage) {
+        printArray.push(this.exitMessage);
+      } else {
+        printArray.push("");
+      }
+      process.stdout.write(this.handleOutput(outLength, printArray).join("\n"));
     };
     this.updateTimer = setTimeout(() => {
       this.updateTimer = null;
@@ -243,6 +250,26 @@ export class ConsoleCanvas extends AbstractCanvas {
       return;
     }
     const key = data.toString("utf-8");
+    if (this.exitMessage) {
+      // 退出中
+      if (key === 'y') {
+        this.exitChar = key;
+        process.stdout.write(this.exitChar);
+        setTimeout(() => {
+          process.exit(0);
+        }, 200);
+      } else if (key === 'n') {
+        this.exitChar = key;
+        process.stdout.write(this.exitChar);
+        this.exitMessage = '';
+        if (game.status === GameStatus.PAUSE) {
+          game.start();
+        } else {
+          this.update();
+        }
+      }
+      return;
+    }
     if (isLeft(data, key)) {
       game.move("left");
     } else if (isRight(data, key)) {
@@ -255,7 +282,9 @@ export class ConsoleCanvas extends AbstractCanvas {
       if (key === " ") {
         game.toggle();
       } else if (key === "p") {
-        process.exit(0);
+        game.pause();
+        this.exitMessage = '您确定要退出游戏吗？(y/n)：';
+        this.update();
       } else if (key === "r") {
         game.start();
       } else if (key === "o") {
