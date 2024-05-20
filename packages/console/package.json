@@ -11,6 +11,9 @@
   "bin": {
     "tetris": "dist/index.main.js"
   },
+  "engines": {
+    "node": ">=14"
+  },
   "devDependencies": {
     "@rollup/plugin-json": "6.1.0",
     "@rollup/plugin-typescript": "11.1.6",
