@@ -1,4 +1,4 @@
-import { Point } from '../../../model/index';
+import { Point } from '@shushanfx/tetris-core';
 import { DefaultTheme } from "./base";
 
 class DarkTheme extends DefaultTheme {

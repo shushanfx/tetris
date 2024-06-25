@@ -1,5 +1,14 @@
-import { Point } from "../index";
+# 手撸俄罗斯方块——游戏主题
 
+当确定游戏载体（如控制台）后，界面将呈现出来。但是游戏的背景色、方块的颜色、方框颜色都应该支持扩展。
+
+当前游戏也是如此，引入了Theme的概念，支持主题的扩展。
+
+## AbstractTheme
+
+系统抽象了一个`AbstractTheme`，它将一些渲染过程中的行为进行了抽象，抽象定义如下：
+
+```javascript
 abstract class AbstractTheme {
   /**
    * 设置外框的样式，如外框的颜色、整体的背景等。
@@ -46,21 +55,9 @@ abstract class AbstractTheme {
    */
   abstract nextPointStyle(blockItem: any, point: Point): void;
 }
+```
 
-class DefaultTheme extends AbstractTheme {
-  outStyle(outer: any): void {}
-  innerStyle(inner: any): void {}
-  scoreStyle(score: any): void {}
-  statusStyle(status: any): void {}
-  scoreTemplate(score: number): string {
-    return score.toString();
-  }
-  nextStyle(blocks: any): void {}
-  currentStyle(current: any): void {}
-  blockStyle(block: any): void {}
-  blockPointStyle(blockItem: any, point: Point): void {}
-  nextPointStyle(blockItem: any, point: Point): void {}
-}
+注释已经描述得比较清晰了，分别对外框、内框等进行了设定。
 
+## 控制台如何实现主题
 
-export { AbstractTheme, DefaultTheme };

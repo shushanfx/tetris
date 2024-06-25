@@ -5,21 +5,27 @@ module.exports = {
   input: 'src/index.ts',
   output: [
     {
-      file: 'dist/index.es.js',
-      format: 'esm',
-      sourcemap: true,
-    },
-    {
       file: 'dist/index.umd.js',
       format: 'umd',
       sourcemap: true,
-      name: 'TetrisCore'
+      name: 'TetrisWeb',
+      globals: {
+        '@shushanfx/tetris-core': 'TetrisCore'
+      }
+    },
+    {
+      file: 'dist/index.es.js',
+      format: 'es',
     }
   ],
   plugins: [
     json(),
     typescript({
       tsconfig: 'tsconfig.json',
+      compilerOptions: {
+        module: 'ESNext',
+        moduleResolution: 'node',
+      }
     })
   ],
 };

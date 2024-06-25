@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { Game, DomCanvas, Dimension, ColorFactory, DarkTheme, DarkColorTheme, DefaultTheme, ColorTheme } from '@shushanfx/tetris-core';
+import { Game, Dimension, ColorFactory } from '@shushanfx/tetris-core';
+import { DomCanvas, DarkTheme, DarkColorTheme, DefaultTheme, ColorTheme, DomController } from "@shushanfx/tetris-web"
 import { onMounted, ref } from 'vue';
 
 let tetris: Game;
@@ -9,6 +10,7 @@ const currentThemeIndex = ref(0);
 onMounted(() => {
   const theme = new DefaultTheme();
   const domCanvas = new DomCanvas('.tetris-container', theme);
+  const domController = new DomController();
   const dimension = new Dimension(10, 20);
   tetris = new Game({
     dimension,
@@ -17,6 +19,7 @@ onMounted(() => {
       dimension, 
       ['#F948F7', '#D1C667', '#468B58', '#C76813', '#AED54C', '#535332', '#499C9F', '#7944B7', '#F034C1']
     ),
+    controller: domController
   });
   tetris.start();
 });

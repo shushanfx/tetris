@@ -8,7 +8,17 @@
     "node": ">=14"
   },
   "workspaces": [
+    "packages/core",
     "packages/*",
     "app"
-  ]
+  ],
+  "scripts": {
+    "build": "yarn workspaces run build"
+  },
+  "dependencies": {
+    "yarn": "^1.22.22"
+  },
+  "devDependencies": {
+    "lerna": "^8.1.3"
+  }
 }

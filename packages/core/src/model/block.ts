@@ -44,7 +44,7 @@ export abstract class Block {
   }
   points: Point[];
   dimension: Dimension;
-  currentChangeIndex: number = 0;
+  currentChangeIndex: number = -1;
   constructor(points: Point[], dimension: Dimension) {
     this.points = points;
     this.dimension = dimension;
@@ -78,7 +78,7 @@ export abstract class Block {
       );
     });
   }
-  canChange(points: Point[][]): boolean {
+  canRotate(points: Point[][]): boolean {
     const centerIndex = this.getCenterIndex();
     if (centerIndex === -1) {
       return false;
@@ -98,7 +98,7 @@ export abstract class Block {
     }
     return isValid;
   }
-  change(): boolean {
+  rotate(): boolean {
     const centerIndex = this.getCenterIndex();
     if (centerIndex === -1) {
       return false;
@@ -136,14 +136,14 @@ export abstract class Block {
   clone(): Block {
     return new (this.constructor as any)(this.points.map((point) => point.clone()), this.dimension);
   }
-  randomChange(): this {
+  randomRotate(): this {
     const changes = this.getChanges();
     if (changes.length === 0) {
       return this;
     }
     const randomIndex = Math.floor(Math.random() * changes.length);
     for (let i = 0; i < randomIndex; i++) {
-      const result = this.change();
+      const result = this.rotate();
       if (!result) {
         break;
       };

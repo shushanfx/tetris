@@ -89,6 +89,6 @@ export class BaseFactory extends AbstractFactory {
     ]
   }
   randomBlock(): Block {
-    return this.blocks[Math.floor(Math.random() * this.blocks.length)].clone().randomChange();
+    return this.blocks[Math.floor(Math.random() * this.blocks.length)].clone().randomRotate();
   }
 }

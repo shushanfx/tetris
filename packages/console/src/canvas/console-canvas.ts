@@ -3,7 +3,7 @@ import {
   AbstractTheme,
   GameStatus,
 } from "@shushanfx/tetris-core";
-import { isDown, isLeft, isRight, isUp } from "../util/index";
+import { bold } from 'colors';
 
 export class ConsoleChar {
   ch: string;
@@ -20,16 +20,31 @@ export interface ConsoleCanvasOptions {
   isHideOuter?: boolean;
   isHideHelper?: boolean;
   blockChar?: string;
+  emptyBlockChar?: string;
 }
 
 export class ConsoleCanvas extends AbstractCanvas {
   rightWidth: number = 8;
   isHideOuter: boolean = false;
   options?: ConsoleCanvasOptions;
-  blockChar: string = "口";
+  blockChar: string = "田";
+  emptyBlockChar: string = '　';
+  outerLeftTopChar: string = '┏━';
+  innerLeftTopChar: string = ' ┏';
+  outerRightTopChar: string = '━┓';
+  innerRightTopChar: string = '┓ ';
+  outerLeftBottomChar: string = '┗━';
+  innerLeftBottomChar: string = ' ┗';
+  outerRightBottomChar: string = '━┛';
+  innerRightBottomChar: string = '┛ ';
+  horizonalChar: string = '━━';
+  outerLeftVerticalChar: string = '┃ ';
+  innerLeftVerticalChar: string = ' ┃';
+  outerRightVerticalChar: string = ' ┃';
+  innerRightVerticalChar: string = '┃ ';
+  spaceChar: string = '　';
   private updateTimer: any = 0;
-  private exitMessage: string = '';
-  private exitChar: string = '';
+  exitMessage: string = '';
   helpMessages = [
     "操作说明：",
     "暂停：空格键",
@@ -53,9 +68,12 @@ export class ConsoleCanvas extends AbstractCanvas {
     if (options && options.blockChar) {
       this.blockChar = options.blockChar;
     }
+    if (options && options.emptyBlockChar) {
+      this.emptyBlockChar = options.emptyBlockChar;
+    }
   }
-  render(): void {
-    this.update();
+  update(): void {
+    this.render();
   }
   handleOutput(lineCharCount: number, lines: string[]): string[] {
     return lines;
@@ -82,10 +100,10 @@ export class ConsoleCanvas extends AbstractCanvas {
     this.theme.statusStyle(consoleChar);
     return consoleChar.ch;
   }
-  private createChar(length: number, ch: string = "　"): string {
+  private createChar(length: number, ch: string = this.spaceChar): string {
     return new Array(length).fill(ch).join("");
   }
-  update(): void {
+  render(): void {
     if (this.updateTimer > 0) {
       return;
     }
@@ -101,43 +119,54 @@ export class ConsoleCanvas extends AbstractCanvas {
       const { xSize, ySize } = dimension;
       const outLength = 1 + 1 + xSize + 1 + this.rightWidth + 1;
       if (!this.isHideOuter) {
+        // 1. 渲染外边框的上边框
         const outLine1 = this.getOutterLine(
-          "+-" +
-          this.createChar(xSize, "－") +
-          "-" +
-          this.createChar(this.rightWidth, "－") +
-          "+"
+          this.outerLeftTopChar +
+          this.createChar(xSize + 2 + this.rightWidth, this.horizonalChar) +
+          this.outerRightTopChar
         );
         printArray.push(outLine1);
       }
+
+      // 2. 渲染score
       const scoreText = this.theme.scoreTemplate(score);
       const scoreConsoleChar = ConsoleChar.create(scoreText);
       this.theme.scoreStyle(scoreConsoleChar);
+      // 计算左侧需要补充的空格
+      const leftSpace = this.rightWidth - scoreText.length - 3;
+      // 右侧需要补充的空格
+      const rightSpace = 3;
       let scoreLine =
-        this.getOutterLine() +
-        " " +
-        this.createChar(xSize) +
-        " " +
-        this.createChar(1) +
-        scoreConsoleChar.ch;
-      const scoreLeftLength = outLength - xSize - scoreText.length - 5;
-      if (scoreLeftLength > 0) {
-        scoreLine += this.createChar(scoreLeftLength);
-      }
-      scoreLine += this.getOutterLine();
+        this.getOutterLine(this.outerLeftVerticalChar) +
+        this.createChar(xSize + 2 + leftSpace) +
+        scoreConsoleChar.ch +
+        this.createChar(rightSpace) +
+        this.getOutterLine(this.outerRightVerticalChar);
       printArray.push(scoreLine);
+
+      // 3. 渲染内边框的上边框
       let line1 =
-        this.getOutterLine() +
-        this.getInnerLine("+" + this.createChar(xSize, "－") + "+");
-      const line1Length = outLength - xSize - 4;
-      if (line1Length > 0) {
-        line1 += this.createChar(line1Length);
+        this.getOutterLine(this.outerLeftVerticalChar) +
+        this.getInnerLine(this.innerLeftTopChar);
+      for (let x = 0; x < xSize; x++) {
+        const oneBlockItem = current?.points.find(item => item.x === x);
+        if (oneBlockItem) {
+          line1 += this.getInnerLine(bold(this.horizonalChar))
+        } else {
+          line1 += this.getInnerLine(this.horizonalChar)
+        }
       }
-      line1 += this.getOutterLine();
+      line1 +=
+        this.getInnerLine(this.innerRightTopChar) +
+        this.createChar(this.rightWidth) +
+        this.getOutterLine(this.outerRightVerticalChar);
       printArray.push(line1);
+
+      // 4. 渲染操作区域
       for (let y = 0; y < ySize; y++) {
         let rowLength = 2;
-        let row = this.getOutterLine() + this.getInnerLine();
+        let row = this.getOutterLine(this.outerLeftVerticalChar)
+          + this.getInnerLine(this.innerLeftVerticalChar);
         for (let x = 0; x < xSize; x++) {
           const point = stage.points[y][x];
           const currentPoint = current
@@ -148,11 +177,11 @@ export class ConsoleCanvas extends AbstractCanvas {
             this.theme.blockPointStyle(consoleChar, currentPoint || point);
             row += consoleChar.ch;
           } else {
-            row += "　";
+            row += this.emptyBlockChar;
           }
         }
         rowLength += xSize;
-        row += this.getInnerLine();
+        row += this.getInnerLine(this.innerRightVerticalChar);
         rowLength += 1;
         // drawNext
         if (y >= 0 && y <= 4) {
@@ -177,13 +206,13 @@ export class ConsoleCanvas extends AbstractCanvas {
               if (point) {
                 this.theme.nextPointStyle(consoleChar, point);
               }
-              row += consoleChar ? consoleChar.ch : "　";
+              row += consoleChar ? consoleChar.ch : this.spaceChar;
               rowLength += 1;
             }
           }
         }
         // drawStatus
-        if (y === 6) {
+        else if (y === 6) {
           const { status } = game;
           if (status === GameStatus.PAUSE) {
             row += this.createChar(1) + this.getStatusLine("游戏暂停");
@@ -205,24 +234,31 @@ export class ConsoleCanvas extends AbstractCanvas {
         // 扣除末尾的结束符号
         const leftLength = outLength - rowLength - 1;
         if (leftLength > 0) {
-          row += new Array(leftLength).fill("　").join("");
+          row += new Array(leftLength).fill(this.spaceChar).join("");
         }
-        row += this.getOutterLine();
+        row += this.getOutterLine(this.outerRightVerticalChar);
         printArray.push(row);
       }
-      const line2 =
-        this.getOutterLine() +
-        this.getInnerLine("+" + this.createChar(xSize, "－") + "+") +
+      let line2 =
+        this.getOutterLine(this.outerLeftVerticalChar) +
+        this.getInnerLine(this.innerLeftBottomChar);
+      for (let x = 0; x < xSize; x++) {
+        const oneBlockItem = current?.points.find(item => item.x === x);
+        if (oneBlockItem) {
+          line2 += this.getInnerLine(bold(this.horizonalChar))
+        } else {
+          line2 += this.getInnerLine(this.horizonalChar)
+        }
+      }
+      line2 += this.getInnerLine(this.innerRightBottomChar) +
         this.createChar(this.rightWidth) +
-        this.getOutterLine();
+        this.getOutterLine(this.outerRightVerticalChar);
       printArray.push(line2);
       if (!this.isHideOuter) {
         const outLine2 = this.getOutterLine(
-          "+-" +
-          this.createChar(xSize, "－") +
-          "-" +
-          this.createChar(this.rightWidth, "－") +
-          "+"
+          this.outerLeftBottomChar +
+          this.createChar(xSize + 2 + this.rightWidth, this.horizonalChar) +
+          this.outerRightBottomChar
         );
         printArray.push(outLine2);
       }
@@ -236,61 +272,6 @@ export class ConsoleCanvas extends AbstractCanvas {
     this.updateTimer = setTimeout(() => {
       this.updateTimer = null;
       handler();
-    }, 100);
-  }
-  bind(): void {
-    // 绑定控制台事件
-    process.stdout.setNoDelay(true);
-    process.stdin.setRawMode(true);
-    process.stdin.on("data", this.handleInput.bind(this));
-  }
-  handleInput(data: Buffer): void {
-    const { game } = this;
-    if (!game) {
-      return;
-    }
-    const key = data.toString("utf-8");
-    if (this.exitMessage) {
-      // 退出中
-      if (key === 'y') {
-        this.exitChar = key;
-        process.stdout.write(this.exitChar);
-        setTimeout(() => {
-          process.exit(0);
-        }, 200);
-      } else if (key === 'n') {
-        this.exitChar = key;
-        process.stdout.write(this.exitChar);
-        this.exitMessage = '';
-        if (game.status === GameStatus.PAUSE) {
-          game.start();
-        } else {
-          this.update();
-        }
-      }
-      return;
-    }
-    if (isLeft(data, key)) {
-      game.move("left");
-    } else if (isRight(data, key)) {
-      game.move("right");
-    } else if (isUp(data, key)) {
-      game.change();
-    } else if (isDown(data, key)) {
-      game.move("down");
-    } else {
-      if (key === " ") {
-        game.toggle();
-      } else if (key === "p") {
-        game.pause();
-        this.exitMessage = '您确定要退出游戏吗？(y/n)：';
-        this.update();
-      } else if (key === "r") {
-        game.start();
-      } else if (key === "o") {
-        this.isHideOuter = !this.isHideOuter;
-        this.update();
-      }
-    }
+    }, 1000 / 24);
   }
 }

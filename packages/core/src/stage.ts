@@ -77,20 +77,16 @@ export class Stage {
     this.clearTimers.push(timer);
   }
   tick() {
-    if (this.isOver) {
+    if (this.isOver || this.clearTimers.length > 0) {
       return;
     }
-    if (this.clearTimers.length > 0) {
-      return;
-    }
-    if (!this.next) {
+    // 首次加载，current为空
+    if (!this.current) {
       this.next = this.factory.randomBlock();
       this.toTop(this.next);
-    }
-    if (!this.current) {
       this.current = this.factory.randomBlock();
       this.toTop(this.current);
-      return;
+      return ;
     }
     const isOver = this.current.points.some((point) => {
       return !this.points[point.y][point.x].isEmpty;
@@ -162,13 +158,13 @@ export class Stage {
     }
     return 0;
   }
-  change() {
+  rotate() {
     if (!this.current) {
       return false;
     }
-    const canChange = this.current.canChange(this.points);
+    const canChange = this.current.canRotate(this.points);
     if (canChange) {
-      this.current.change();
+      this.current.rotate();
     }
     return false;
   }

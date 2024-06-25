@@ -1,11 +1,9 @@
-import { GameStatus } from '../../game';
-import { AbstractTheme } from '../../theme/index';
-import { AbstractCanvas } from '../base';
-
+import { GameStatus, AbstractCanvas, AbstractTheme } from '@shushanfx/tetris-core';
 export * from './theme/base';
 export * from './theme/color';
 export * from './theme/dark';
 export * from './theme/dark-color';
+export * from './controller'
 
 export class DomCanvas extends AbstractCanvas {
   el: HTMLElement;
@@ -98,33 +96,6 @@ export class DomCanvas extends AbstractCanvas {
     this.renderCurrent(); 
     this.renderScore();
     this.renderStatus();
-  }
-  bind(): void {
-    const onHandleKey = (e: KeyboardEvent) => {
-      if (e.key === ' ' && e.type === 'keypress') {
-        this.game!.toggle();
-        return ;
-      }
-      if (this.stage!.isOver) {
-        return ;
-      }
-      switch (e.key) {
-        case 'ArrowUp':
-          this.game!.change();
-          break;
-        case 'ArrowDown':
-          this.game!.move('down');
-          break;
-        case 'ArrowLeft':
-          this.game!.move('left');
-          break;
-        case 'ArrowRight':
-          this.game!.move('right');
-          break;
-      }
-    }
-    window.addEventListener('keydown', onHandleKey, false);  
-    window.addEventListener('keypress', onHandleKey, false);
   }
   renderScore(): void {
     if (!this.elScore) {

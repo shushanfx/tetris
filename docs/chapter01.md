@@ -1,4 +1,4 @@
-# 俄罗斯方块
+# 手撸俄罗斯方块
 
 ## 简单介绍
 
@@ -316,6 +316,8 @@ class Point {
 
 2. Block，方块
 
+我们通过`Block`来抽象方块，定义如下：
+
 ```javascript
 class Block {
   private points: Point[];
@@ -345,5 +347,7 @@ class IBlock extends Block {
   }
 }
 ```
+
+通过继承的关系，分别实现`LBlock`、`JBlock`、`OBlock`、`TBlock`、`SBlock`、`ZBlock`。
 
 本章内容暂时就到这里，后续章节我们将继续讨论如何实现俄罗斯方块的游戏逻辑。

@@ -1,5 +1,5 @@
 import { ColorTheme } from "./color";
-import { Point } from '../../../model/index';
+import { Point } from '@shushanfx/tetris-core';
 
 class DarkColorTheme extends ColorTheme {
   blockBackgroundColor = '#2116169e';

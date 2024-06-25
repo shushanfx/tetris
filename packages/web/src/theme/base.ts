@@ -1,5 +1,4 @@
-import { Point } from '../../../index';
-import { AbstractTheme } from '../../../theme/index';
+import { Point, AbstractTheme } from '@shushanfx/tetris-core';
 
 export class DefaultTheme extends AbstractTheme {
   currentStyle(current: any): void {

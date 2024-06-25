@@ -2,11 +2,13 @@ import { AbstractCanvas } from "./canvas/index";
 import { Stage } from "./stage";
 import { AbstractFactory } from "./factory/index";
 import { Direction, Dimension } from "./model/index";
+import { AbstractController } from "./controller/index";
 
 export interface GameOptions {
   dimension: Dimension;
   canvas: AbstractCanvas;
   factory?: AbstractFactory;
+  controller?: AbstractController;
 }
 
 export enum GameStatus {
@@ -18,6 +20,7 @@ export enum GameStatus {
 }
 
 export class Game {
+  controller?: AbstractController;
   canvas: AbstractCanvas;
   options: GameOptions;
   dimension: Dimension;
@@ -34,7 +37,10 @@ export class Game {
     this.canvas = options.canvas;
     this.canvas.stage = this.stage;
     this.canvas.game = this;
-    this.canvas.bind();
+    this.controller = options.controller;
+    if (this.controller) {
+      this.controller.game = this;
+    }
     this.status = GameStatus.READY;
   }
   start() {
@@ -42,10 +48,12 @@ export class Game {
     if (status === GameStatus.RUNNING) {
       return ;
     }
-    if (status === GameStatus.OVER || status === GameStatus.STOP) {
+    if (status === GameStatus.OVER
+      || status === GameStatus.STOP) {
       this.stage.reset();
       this.canvas.render();
     } else if (status === GameStatus.READY) {
+      this.controller?.bind();
       this.canvas.render();
     }
     this.status = GameStatus.RUNNING;
@@ -87,8 +95,8 @@ export class Game {
     this.status = GameStatus.STOP;
     this.canvas.update();
   }
-  change() {
-    this.stage.change();  
+  rotate() {
+    this.stage.rotate();  
     this.canvas.update();
   }
   move(direction: Direction) {
@@ -103,6 +111,10 @@ export class Game {
     } else if(this.status === GameStatus.RUNNING) {
       this.pause();
     }
+  }
+  destroy() {
+    this.stop();
+    this.controller?.unbind();
   }
   private checkIsOver(): void {
     const isOver = this.stage.isOver;

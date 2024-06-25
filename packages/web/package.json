@@ -1,10 +1,12 @@
 {
-  "name": "@shushanfx/tetris-console",
+  "name": "@shushanfx/tetris-web",
   "version": "1.0.0",
-  "main": "dist/index.js",
+  "main": "dist/index.umd.js",
+  "module": "dist/index.es.js",
+  "types": "dist/index.d.ts",
   "license": "MIT",
   "scripts": {
-    "build": "rollup -c && rollup -c rollup.main.js",
+    "build": "rollup -c",
     "dev": "rollup -c -w",
     "test": "ts-node src/index.main.ts"
   },
@@ -17,15 +19,11 @@
   "devDependencies": {
     "@rollup/plugin-json": "6.1.0",
     "@rollup/plugin-typescript": "11.1.6",
-    "@types/node": "16.0.0",
     "rollup": "4.17.2",
-    "ts-node": "10.9.2",
     "tslib": "2.6.2",
     "typescript": "5.4.5"
   },
   "dependencies": {
-    "@shushanfx/tetris-core": "^1.0.0",
-    "colors": "1.4.0",
-    "commander": "^12.1.0"
+    "@shushanfx/tetris-core": "^1.0.0"
   }
 }
