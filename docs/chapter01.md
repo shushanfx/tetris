@@ -2,9 +2,9 @@
 
 ## 简单介绍
 
-《俄罗斯方块》（俄语：Тетрис，英语：Tetris），是`1980`年末期至`1990`年代初期风靡全世界的电脑游戏，是落下型益智游戏的始祖，电子游戏领域的代表作之一，为苏联首个在美国发布的娱乐软件。此游戏最初由`阿列克谢·帕基特诺夫`在苏联设计和编写，于1984年6月6日首次发布，当时他正在苏联科学院电算中心工作。此游戏的名称是由希腊语数字“四”的前缀`“tetra-”`（因所有落下方块皆由四块组成）和帕基特诺夫最喜欢的运动网球（`“tennis”`）拼接而成，华语地区则因游戏为俄罗斯人发明普遍称为“俄罗斯方块”。
+《俄罗斯方块》（俄语：Тетрис，英语：Tetris），是`1980`年末期至`1990`年代初期风靡全世界的电脑游戏，是落下型益智游戏的始祖，电子游戏领域的代表作之一，为苏联首个在美国发布的娱乐软件。此游戏最初由`阿列克谢·帕基特诺夫`在苏联设计和编写，于 1984 年 6 月 6 日首次发布，当时他正在苏联科学院电算中心工作。此游戏的名称是由希腊语数字“四”的前缀`“tetra-”`（因所有落下方块皆由四块组成）和帕基特诺夫最喜欢的运动网球（`“tennis”`）拼接而成，华语地区则因游戏为俄罗斯人发明普遍称为“俄罗斯方块”。
 
-数字“四”，显而易见，最初的图形都是由4个小方块组成的，这也是俄罗斯方块的一个特点。游戏的目标是通过控制不同形状的方块，使它们在一个矩形的游戏区域中排列成完整的一行或多行，然后这些完整的行就会消除，给玩家得分。
+数字“四”，显而易见，最初的图形都是由 4 个小方块组成的，这也是俄罗斯方块的一个特点。游戏的目标是通过控制不同形状的方块，使它们在一个矩形的游戏区域中排列成完整的一行或多行，然后这些完整的行就会消除，给玩家得分。
 
 ### 游戏规则
 
@@ -20,17 +20,17 @@
 
 ### 形状
 
-俄罗斯方块中的方块有7种不同的形状，分别是：
+俄罗斯方块中的方块有 7 种不同的形状，分别是：
 
 - `I`型：一字型；
-- `J`型：J型；
-- `L`型：L型。
+- `J`型：J 型；
+- `L`型：L 型。
 - `O`型：方块型；
-- `S`型：S型；
-- `T`型：T型；
-- `Z`型：Z型；
+- `S`型：S 型；
+- `T`型：T 型；
+- `Z`型：Z 型；
 
-这些形状是由4个小方块组成的，每个小方块都可以旋转，但是旋转的中心不同。如下图：
+这些形状是由 4 个小方块组成的，每个小方块都可以旋转，但是旋转的中心不同。如下图：
 
 ![俄罗斯方块](./images/tetris-figure.png)
 
@@ -80,28 +80,21 @@ const y = 2; // 行
 const point = points[y][x]; // 获取坐标为(1, 2)的元素
 ```
 
-需要注意的是，数组的索引是从`0`开始的，因此在实际过程中我们将y = 0看成第一行，x = 0看成第一列。
+需要注意的是，数组的索引是从`0`开始的，因此在实际过程中我们将 y = 0 看成第一行，x = 0 看成第一列。
 
 ### 方块的表示
 
 按照上述坐标体系的定义，我们可以表示任何一个方块，如当表示`I`型方块时，我们可以定义一个数组来表示它的形状：
 
 ```javascript
-const IHorizonal = [
-  [0, 1, 2, 3]
-]
-const IVertical = [
-  [0],
-  [1],
-  [2],
-  [3]
-]
+const IHorizonal = [[0, 1, 2, 3]];
+const IVertical = [[0], [1], [2], [3]];
 ```
 
 如下图：
 ![I型方块](./images/chapter01/i-block.jpg)
 
-这样我们就可以通过一个数组来表示一个方块的形状。通过类似的方法，我们可以表示其他的6个方块。但是，I方块有两种形态，我们到底使用哪一种作为初始形态呢？
+这样我们就可以通过一个数组来表示一个方块的形状。通过类似的方法，我们可以表示其他的 6 个方块。但是，I 方块有两种形态，我们到底使用哪一种作为初始形态呢？
 
 这里面需要做一个约定，我们定义每个方块的初始化形态。定义如下：
 
@@ -159,40 +152,39 @@ const IVertical = [
 
 1. 移动后的方块不能超出游戏区域；即不能超出游戏区域的左边界、右边界和底边界；翻译成程序语言为：
 
-  ```javascript
-  // 向左移动
-  if (x - 1 >= 0) {
-    x -= 1;
-  }
-  // 向右移动
-  if (x + 1 < width) {
-    x += 1;
-  }
-  // 向下移动
-  if (y + 1 < height) {
-    y += 1;
-  }
-  ```
+```javascript
+// 向左移动
+if (x - 1 >= 0) {
+  x -= 1;
+}
+// 向右移动
+if (x + 1 < width) {
+  x += 1;
+}
+// 向下移动
+if (y + 1 < height) {
+  y += 1;
+}
+```
 
 2. 移动后的方块不能与其他方块重叠；即不能与其他方块的坐标重叠；翻译成程序语言为：
 
-  ```javascript
-  // 向左移动
-  if (x - 1 >= 0 && !isOverlap(x - 1, y)) {
-    x -= 1;
-  }
-  // 向右移动
-  if (x + 1 < width && !isOverlap(x + 1, y)) {
-    x += 1;
-  }
-  // 向下移动
-  if (y + 1 < height && !isOverlap(x, y + 1)) {
-    y += 1;
-  }
-  ```
+```javascript
+// 向左移动
+if (x - 1 >= 0 && !isOverlap(x - 1, y)) {
+  x -= 1;
+}
+// 向右移动
+if (x + 1 < width && !isOverlap(x + 1, y)) {
+  x += 1;
+}
+// 向下移动
+if (y + 1 < height && !isOverlap(x, y + 1)) {
+  y += 1;
+}
+```
 
 上面是描述某个点的情况，实际上判断方块情况，需要所有的点都满足条件。
-
 
 ### 方块的转换
 
@@ -200,7 +192,7 @@ const IVertical = [
 
 ![方块的旋转](./images/chapter01/tetris-rotate.jpg)
 
-同样的，在旋转过程中，也必须曼如如下条件：
+同样的，在旋转过程中，也必须满足如下条件：
 
 1. 旋转后的方块不能超出游戏区域；即不能超出游戏区域的左边界、右边界和底边界；
 
@@ -213,13 +205,16 @@ const IVertical = [
 const isValid = (newShape) => {
   for (let y = 0; y < newShape.length; y++) {
     for (let x = 0; x < newShape[y].length; x++) {
-      if (newShape[y][x] && (x < 0 || x >= width || y >= height || isOverlap(x, y))) {
+      if (
+        newShape[y][x] &&
+        (x < 0 || x >= width || y >= height || isOverlap(x, y))
+      ) {
         return false;
       }
     }
   }
   return true;
-}
+};
 const newShape = rotate(shape);
 if (isValid(newShape)) {
   shape = newShape;
@@ -228,7 +223,7 @@ if (isValid(newShape)) {
 
 接下来问题来，如何实现`rotate`函数呢？这里面就涉及到了方块的旋转。对于不同的方块，旋转的方式是不同的。
 
-如I型方块，其旋转形态只有两种，分别是横向和纵向。
+如 I 型方块，其旋转形态只有两种，分别是横向和纵向。
 
 ```javascript
 // I型方块
@@ -241,7 +236,7 @@ if (isValid(newShape)) {
 // 口
 ```
 
-但是对于T型等其他方块，其旋转形态是四种的。
+但是对于 T 型等其他方块，其旋转形态是四种的。
 
 ```javascript
 // T型方块
@@ -272,17 +267,22 @@ if (isValid(newShape)) {
 2. 方块的旋转方向和角度是固定，我们可以选取逆时针旋转，相对我们定义的坐标系统旋转角度为 π / 2。 故根据旋转公式，新坐标定义如下：
 
 ```javascript
-  const newX = Math.cos(Math.PI / 2) * (x - centerX) - Math.sin(Math.PI / 2) * (y - centerY) + centerX;
+const newX =
+  Math.cos(Math.PI / 2) * (x - centerX) -
+  Math.sin(Math.PI / 2) * (y - centerY) +
+  centerX;
 
-  const newY = Math.cos(Math.PI / 2) * (y - centerY) + Math.sin(Math.PI / 2) * (x - centerX) + centerY;
-
+const newY =
+  Math.cos(Math.PI / 2) * (y - centerY) +
+  Math.sin(Math.PI / 2) * (x - centerX) +
+  centerY;
 ```
 
-  即
+即
 
 ```javascript
-  const newX = -y + centerY + centerX;
-  const newY =  x - centerX +  centerY;
+const newX = -y + centerY + centerX;
+const newY = x - centerX + centerY;
 ```
 
 此处不太了解的可以去看看[坐标旋转](https://blog.csdn.net/sinat_33425327/article/details/78333946)。
@@ -312,7 +312,7 @@ class Point {
 }
 ```
 
-每个坐标点均包含了x、y坐标，以及其他属性，如颜色等；
+每个坐标点均包含了 x、y 坐标，以及其他属性，如颜色等；
 
 2. Block，方块
 
@@ -330,9 +330,9 @@ class Block {
 }
 ```
 
-其他的方块均继承自Block，实现`getCenterIndex`和`getRotateArray`方法。
+其他的方块均继承自 Block，实现`getCenterIndex`和`getRotateArray`方法。
 
-如IBlcok，其实现如下：
+如 IBlcok，其实现如下：
 
 ```javascript
 class IBlock extends Block {
@@ -342,8 +342,8 @@ class IBlock extends Block {
   getRotateArray() {
     return [
       Math.PI / 2, // 第一次旋转相对于初始位置的角度
-      -Math.PI / 2 // 第二次旋转相对于第一次旋转的角度
-    ]
+      -Math.PI / 2, // 第二次旋转相对于第一次旋转的角度
+    ];
   }
 }
 ```
