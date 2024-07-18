@@ -43,7 +43,7 @@ export class ConsoleCanvas extends AbstractCanvas {
   outerRightVerticalChar: string = ' ┃';
   innerRightVerticalChar: string = '┃ ';
   spaceChar: string = '　';
-  private updateTimer: any = 0;
+  private updateTimer: number = -1;
   exitMessage: string = '';
   helpMessages = [
     "操作说明：",
@@ -136,7 +136,7 @@ export class ConsoleCanvas extends AbstractCanvas {
       const leftSpace = this.rightWidth - scoreText.length - 3;
       // 右侧需要补充的空格
       const rightSpace = 3;
-      let scoreLine =
+      const scoreLine =
         this.getOutterLine(this.outerLeftVerticalChar) +
         this.createChar(xSize + 2 + leftSpace) +
         scoreConsoleChar.ch +
@@ -173,7 +173,7 @@ export class ConsoleCanvas extends AbstractCanvas {
             ? current?.points.find((p) => p.x === x && p.y === y)
             : null;
           if (currentPoint || !point.isEmpty) {
-            let consoleChar = new ConsoleChar(this.blockChar);
+            const consoleChar = new ConsoleChar(this.blockChar);
             this.theme.blockPointStyle(consoleChar, currentPoint || point);
             row += consoleChar.ch;
           } else {
@@ -200,7 +200,7 @@ export class ConsoleCanvas extends AbstractCanvas {
             });
             for (let x = xStart; x <= xEnd; x++) {
               const point = next.points.find((p) => p.x === x && p.y === y);
-              let consoleChar: ConsoleChar | null = point
+              const consoleChar: ConsoleChar | null = point
                 ? new ConsoleChar(this.blockChar)
                 : null;
               if (point) {
@@ -270,8 +270,8 @@ export class ConsoleCanvas extends AbstractCanvas {
       process.stdout.write(this.handleOutput(outLength, printArray).join("\n"));
     };
     this.updateTimer = setTimeout(() => {
-      this.updateTimer = null;
+      this.updateTimer = -1;
       handler();
-    }, 1000 / 24);
+    }, 1000 / 24) as unknown as number;
   }
 }

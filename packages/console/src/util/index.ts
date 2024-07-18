@@ -1,5 +1,3 @@
-import exp from "constants";
-
 export const isDown = (data: Buffer, key: string) => {
   if (key === 's' || key === 'S') {
     return true;
@@ -28,7 +26,7 @@ export const isRight = (data: Buffer, key: string) => {
   return data[0] === 27 && data[1] === 91 && data[2] === 67;
 }
 
-export const toFullNumber = (num: number|string) => {
+export const toFullNumber = (num: number | string) => {
   const str = num.toString();
   return str.split('').map((char) => {
     return String.fromCharCode(65296 + parseInt(char));

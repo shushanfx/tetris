@@ -33,15 +33,25 @@ const updateTheme = () => {
 
 <template>
   <div>
-    <div class="tetris-container"></div>
+    <div class="tetris-container" />
     <div class="tetris-button">
-      <button @click="tetris.start()">开始</button>
-      <button @click="tetris.pause()">暂停</button>
-      <button @click="tetris.start()">继续</button>
-      <button @click="tetris.stop()">停止</button>
+      <button @click="tetris.start()">
+        开始
+      </button>
+      <button @click="tetris.pause()">
+        暂停
+      </button>
+      <button @click="tetris.start()">
+        继续
+      </button>
+      <button @click="tetris.stop()">
+        停止
+      </button>
     </div>
     <div class="tetris-button">
-      <button @click="updateTheme">切换主题</button>
+      <button @click="updateTheme">
+        切换主题
+      </button>
     </div>
   </div>
 </template>

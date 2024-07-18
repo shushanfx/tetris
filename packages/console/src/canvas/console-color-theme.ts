@@ -2,7 +2,6 @@ import { Point } from '@shushanfx/tetris-core';
 import { ConsoleTheme } from './console-theme';
 import { ConsoleChar } from './console-canvas';
 import {
-  black,
   red,
   green,
   yellow,

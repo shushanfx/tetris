@@ -8,7 +8,7 @@
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
-    "test": "ts-node src/index.main.ts"
+    "lint": "eslint src/index.ts"
   },
   "bin": {
     "tetris": "dist/index.main.js"
