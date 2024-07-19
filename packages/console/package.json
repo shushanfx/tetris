@@ -1,6 +1,6 @@
 {
   "name": "@shushanfx/tetris-console",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "dist/index.js",
   "license": "MIT",
   "scripts": {
@@ -26,7 +26,7 @@
     "typescript": "5.4.5"
   },
   "dependencies": {
-    "@shushanfx/tetris-core": "^1.0.1",
+    "@shushanfx/tetris-core": "^1.0.2",
     "colors": "1.4.0",
     "commander": "^12.1.0"
   }
