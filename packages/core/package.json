@@ -8,7 +8,8 @@
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
-    "lint": "eslint src/index.ts"
+    "lint": "eslint src/index.ts",
+    "prepublish": "npm run build"
   },
   "devDependencies": {
     "@rollup/plugin-json": "6.1.0",
