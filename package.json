@@ -16,7 +16,8 @@
     "build": "yarn workspaces run build",
     "lint": "yarn workspaces run lint",
     "lint-staged": "lint-staged",
-    "prepare": "husky"
+    "prepare": "husky",
+    "release": "lerna publish"
   },
   "dependencies": {},
   "devDependencies": {
