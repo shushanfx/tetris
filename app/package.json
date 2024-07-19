@@ -1,7 +1,7 @@
 {
   "name": "app",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -10,8 +10,8 @@
     "lint": "eslint -c eslint.config.mjs"
   },
   "dependencies": {
-    "@shushanfx/tetris-core": "^1.0.0",
-    "@shushanfx/tetris-web": "^1.0.0",
+    "@shushanfx/tetris-core": "^1.0.1",
+    "@shushanfx/tetris-web": "^1.0.1",
     "vue": "3.4.21"
   },
   "devDependencies": {
