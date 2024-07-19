@@ -33,7 +33,7 @@ const updateTheme = () => {
 
 <template>
   <div>
-    <div class="tetris-container">123</div>
+    <div class="tetris-container" />
     <div class="tetris-button">
       <button @click="tetris.start()">
         开始

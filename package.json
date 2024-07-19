@@ -30,7 +30,7 @@
   },
   "lint-staged": {
     "*.{js,ts,vue}": [
-      "eslint"
+      "eslint eslint --max-warnings=0"
     ]
   }
 }
