@@ -50,7 +50,7 @@ const updateTheme = () => {
     </div>
     <div class="tetris-button">
       <button @click="updateTheme">
-        切换主题
+        切换主题123
       </button>
     </div>
   </div>
