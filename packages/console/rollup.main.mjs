@@ -1,7 +1,7 @@
-const json = require('@rollup/plugin-json');
-const typescript = require('@rollup/plugin-typescript');
+import json from '@rollup/plugin-json';
+import typescript from '@rollup/plugin-typescript';
 
-module.exports = {
+export default {
   input: 'src/index.main.ts',
   output: {
     file: 'dist/index.main.js',

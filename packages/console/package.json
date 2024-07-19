@@ -4,7 +4,7 @@
   "main": "dist/index.js",
   "license": "MIT",
   "scripts": {
-    "build": "rollup -c && rollup -c rollup.main.js",
+    "build": "rollup -c && rollup -c rollup.main.mjs",
     "dev": "rollup -c -w",
     "lint": "eslint src",
     "test": "ts-node src/index.main.ts",
