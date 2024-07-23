@@ -112,3 +112,64 @@ $ yarn workspaces info
 如此，我们基本上完成了大仓的配置。
 
 ## 如何运作
+
+我们利用大仓来管理项目的其中两个很重要目的：一个是管理公共依赖，另一个是管理内部依赖。
+
+### 公共依赖如何管理
+
+所谓公共依赖，也可以细分为两个情况：
+
+- 通过根`package.json`声明的依赖，这些依赖会被所有的包共享。
+
+- 通过两个及以上的项目依赖。
+
+对于这两种情况，一般的建议都是通过根`package.json`进行管理。当时在实际情况下第二种情况也确实存在。不过大仓都将这些情况考虑进去了。
+
+比如，项目中均依赖`typescript`、`eslint`等，那么我们只需要在根`package.json`中声明即可。
+
+最终会在根目录下的`node_modules`中看到这些依赖。如下：
+
+```bash
+tetris
+|-- node_modules
+|   |-- typescript
+```
+
+**注意**：有两个地方需要注意
+
+1. 如果子项目声明同一个依赖，但版本不一致，yarn 会在子项目下安装对应的依赖版本。如子项目分别使用了`vue@2`和`vue@3`，那么最终在子项目的目录下分别包含`vue2`和`vue3`。
+
+2. 如果子项目安装的依赖包含`bin`声明，则会在子项目的`node_modules/.bin`目录下生成对应的可执行文件。
+
+### 内部依赖如何管理
+
+对于内部依赖，yarn 的处理要简单得多，直接在根目录下生成对应的软链接。
+
+如本项目中，`@shushanfx/tetris-core`、`@shushanfx/tetris-console`、`@shushanfx/tetris-web`都是内部依赖，那么在根目录下会生成对应的软链接。
+
+```bash
+tetris
+|-- node_modules
+|   |-- @shushanfx
+|       |-- tetris-core -> ../../packages/core
+|       |-- tetris-console -> ../../packages/console
+|       |-- tetris-web -> ../../packages/web
+```
+
+这样，我们在`app`项目中引用`@shushanfx/tetris-core`时，实际上引用的是`packages/core`目录。
+
+> PS: 实际上它利用了 node 的`require`机制，当引用一个模块时，会先在`node_modules`中查找，如果没有找到，会继续在父目录中查找，直到根目录。有兴趣的同学可以去了解一下`node`的[模块加载机制](https://nodejs.org/docs/latest/api/modules.html#loading-from-node_modules-folders)。无论是 `webpack`还是`rollup`，均参照了该机制进行模块加载。
+
+## 小结
+
+本文正对项目中采用的大仓模式进行了阐述，从大仓的演进、优缺点、以及如何实现这三个方面进行了详细的介绍。讲解得比较浅显，深入的使用还是要去实践一下。同时，大仓模式并不是万能的，对于一些特殊的场景，还是需要根据实际情况进行选择。技术选型也并非我们所描述的`yarn` + `lerna`的组合，还有很多其他的选择，比如`rush`等。
+
+引入大仓是一个开始，但是它的引入带了一些新的调整，如：
+
+- 构建依赖如何管理？
+- eslint 在大仓模式下如何生效？
+- 不同的构建体系如何融入大仓模式？
+- 单元测试如何组织？
+- 其他问题
+
+后续的文章将进一步阐述这些问题。
