@@ -8,15 +8,19 @@
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
-    "lint": "eslint src/index.ts",
+    "lint": "eslint src/index.ts test",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
     "prepublish": "npm run build"
   },
   "devDependencies": {
     "@rollup/plugin-json": "6.1.0",
     "@rollup/plugin-typescript": "11.1.6",
+    "@vitest/coverage-v8": "^3.2.4",
     "rollup": "4.17.2",
     "tslib": "2.6.2",
-    "typescript": "5.4.5"
+    "typescript": "5.4.5",
+    "vitest": "^3.2.4"
   },
   "engines": {
     "node": ">=14"
