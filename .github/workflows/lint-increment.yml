@@ -22,7 +22,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
 
       # 仓库未提交 yarn.lock，无法用 setup-node 自带缓存，按 package.json 哈希手动缓存
       - uses: actions/cache@v4
