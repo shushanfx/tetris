@@ -1,25 +1,44 @@
 <script setup lang="ts">
-import { Game, Dimension, ColorFactory } from '@shushanfx/tetris-core';
-import { DomCanvas, DarkTheme, DarkColorTheme, DefaultTheme, ColorTheme, DomController } from "@shushanfx/tetris-web"
-import { onMounted, ref } from 'vue';
+import { Game, Dimension, ColorFactory } from "@shushanfx/tetris-core";
+import {
+  DomCanvas,
+  DarkTheme,
+  DarkColorTheme,
+  DefaultTheme,
+  ColorTheme,
+  DomController,
+} from "@shushanfx/tetris-web";
+import { onMounted, ref } from "vue";
 
 let tetris: Game;
-const themes = [new DarkTheme(), new DarkColorTheme(), new DefaultTheme(), new ColorTheme()];
+const themes = [
+  new DarkTheme(),
+  new DarkColorTheme(),
+  new DefaultTheme(),
+  new ColorTheme(),
+];
 const currentThemeIndex = ref(0);
 
 onMounted(() => {
   const theme = new DefaultTheme();
-  const domCanvas = new DomCanvas('.tetris-container', theme);
+  const domCanvas = new DomCanvas(".tetris-container", theme);
   const domController = new DomController();
   const dimension = new Dimension(10, 20);
   tetris = new Game({
     dimension,
     canvas: domCanvas,
-    factory: new ColorFactory(
-      dimension, 
-      ['#F948F7', '#D1C667', '#468B58', '#C76813', '#AED54C', '#535332', '#499C9F', '#7944B7', '#F034C1']
-    ),
-    controller: domController
+    factory: new ColorFactory(dimension, [
+      "#F948F7",
+      "#D1C667",
+      "#468B58",
+      "#C76813",
+      "#AED54C",
+      "#535332",
+      "#499C9F",
+      "#7944B7",
+      "#F034C1",
+    ]),
+    controller: domController,
   });
   tetris.start();
 });
@@ -28,7 +47,6 @@ const updateTheme = () => {
   currentThemeIndex.value = (currentThemeIndex.value + 1) % themes.length;
   tetris.canvas.updateTheme(themes[currentThemeIndex.value]);
 };
-
 </script>
 
 <template>
@@ -50,7 +68,7 @@ const updateTheme = () => {
     </div>
     <div class="tetris-button">
       <button @click="updateTheme">
-        切换主题123
+        切换主题
       </button>
     </div>
   </div>
@@ -80,7 +98,7 @@ const updateTheme = () => {
   margin-left: 5px;
   padding: 0.6rem 0.8rem;
 }
-.tetris-button button:first-child{
+.tetris-button button:first-child {
   margin-left: 0;
 }
 </style>

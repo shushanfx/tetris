@@ -43,13 +43,13 @@
 
 具体操作流程如下：
 
-1. 项目结构，packages 存放所有的工具包，app 存放 web 包。
+1. 项目结构，packages 存放所有的工具包，web-demo 存放 web 测试入口。
 
 2. 修改`package.json`，添加`workspaces`字段，指定所有的包。
 
 ```json
 {
-  "workspaces": ["packages/*", "app"]
+  "workspaces": ["packages/*"]
 }
 ```
 
@@ -79,8 +79,8 @@ $ yarn workspaces info
     ],
     "mismatchedWorkspaceDependencies": []
   },
-  "app": {
-    "location": "app",
+  "@shushanfx/tetris-web-demo": {
+    "location": "packages/web-demo",
     "workspaceDependencies": [
       "@shushanfx/tetris-core",
       "@shushanfx/tetris-web"
@@ -95,7 +95,7 @@ $ yarn workspaces info
 - `@shushanfx/tetris-core`： 无依赖
 - `@shushanfx/tetris-console`： 依赖`@shushanfx/tetris-core`
 - `@shushanfx/tetris-web`： 依赖`@shushanfx/tetris-core`
-- `app`： 依赖`@shushanfx/tetris-core`和`@shushanfx/tetris-web`
+- `@shushanfx/tetris-web-demo`： 依赖`@shushanfx/tetris-core`和`@shushanfx/tetris-web`
 
 3. `lerna`配置文件`lerna.json`，指定`lerna`的配置。
 
@@ -156,7 +156,7 @@ tetris
 |       |-- tetris-web -> ../../packages/web
 ```
 
-这样，我们在`app`项目中引用`@shushanfx/tetris-core`时，实际上引用的是`packages/core`目录。
+这样，我们在`web-demo`项目中引用`@shushanfx/tetris-core`时，实际上引用的是`packages/core`目录。
 
 > PS: 实际上它利用了 node 的`require`机制，当引用一个模块时，会先在`node_modules`中查找，如果没有找到，会继续在父目录中查找，直到根目录。有兴趣的同学可以去了解一下`node`的[模块加载机制](https://nodejs.org/docs/latest/api/modules.html#loading-from-node_modules-folders)。无论是 `webpack`还是`rollup`，均参照了该机制进行模块加载。
 
