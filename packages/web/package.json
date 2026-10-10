@@ -11,9 +11,6 @@
     "lint": "eslint src/index.ts",
     "prepublish": "npm run build"
   },
-  "bin": {
-    "tetris": "dist/index.main.js"
-  },
   "engines": {
     "node": ">=14"
   },
