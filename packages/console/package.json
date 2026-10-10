@@ -19,7 +19,7 @@
   "devDependencies": {
     "@rollup/plugin-json": "6.1.0",
     "@rollup/plugin-typescript": "11.1.6",
-    "@types/node": "16.0.0",
+    "@types/node": "14.0.0",
     "rollup": "4.17.2",
     "ts-node": "10.9.2",
     "tslib": "2.6.2",
