@@ -9,3 +9,4 @@ yarn.lock
 dist
 coverage
 lint-report.md
+test-results.json
