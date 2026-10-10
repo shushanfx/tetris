@@ -6,6 +6,9 @@ import vueParser from 'vue-eslint-parser';
 // import vue3Typescript from '@vue/eslint-config-typescript';
 export default [
   {
+    ignores: ["dist/**", "node_modules/**"]
+  },
+  {
     files: ["**/*.vue", "**/*.ts"]
   },
   ...pluginVue.configs['flat/recommended'],
