@@ -20,20 +20,20 @@ export class Stage {
     this.isOver = false;
     this.current = null;
     this.score = 0;
-    this.points = 
+    this.points =
       Array.from(
-        { length: dimension.ySize }, 
+        { length: dimension.ySize },
         () => Array.from(
-          { length: dimension.xSize }, 
-            () => {
-              return new Point(-1, -1);
-            }
-          )
-        );
+          { length: dimension.xSize },
+          () => {
+            return new Point(-1, -1);
+          }
+        )
+      );
   }
   private toTop(block?: Block) {
     if (!block) {
-      return 
+      return
     }
     do {
       const canMove = block.canMove('up', this.points);
@@ -42,7 +42,8 @@ export class Stage {
       } else {
         break;
       }
-    } while(true);
+      // eslint-disable-next-line no-constant-condition
+    } while (true);
   }
   private startClear(newPoints: Point[][], clearRows: number[], callback: () => void) {
     let iCount = 0;
@@ -64,7 +65,7 @@ export class Stage {
           point.attrs.isReadyToClear = iCount % 2 === 0;
         });
         this.current?.points.forEach(item => {
-          if (item.y !== row){
+          if (item.y !== row) {
             return;
           }
           item.attrs.isReadyToClear = iCount % 2 === 0;
@@ -86,7 +87,7 @@ export class Stage {
       this.toTop(this.next);
       this.current = this.factory.randomBlock();
       this.toTop(this.current);
-      return ;
+      return;
     }
     const isOver = this.current.points.some((point) => {
       return !this.points[point.y][point.x].isEmpty;
@@ -111,7 +112,7 @@ export class Stage {
       pointsClone[point.y][point.x] = point.clone();
     });
     const cleanRows: number[] = [];
-    for(let i = 0; i < pointsClone.length; i ++) {
+    for (let i = 0; i < pointsClone.length; i++) {
       const row = pointsClone[i];
       const isFull = row.every((point) => {
         return !point.isEmpty
@@ -126,7 +127,7 @@ export class Stage {
         this.score += this.getScore(cleanRows.length);
         // 处理消除和下落
         cleanRows.forEach((rowIndex) => {
-          for(let i = rowIndex; i >= 0; i--) {
+          for (let i = rowIndex; i >= 0; i--) {
             if (i === 0) {
               pointsClone[0] = Array.from({ length: this.dimension.xSize }, () => new Point(-1, -1));
             } else {

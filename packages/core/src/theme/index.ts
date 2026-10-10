@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Point } from "../index";
 
 abstract class AbstractTheme {
@@ -48,18 +50,18 @@ abstract class AbstractTheme {
 }
 
 class DefaultTheme extends AbstractTheme {
-  outStyle(outer: any): void {}
-  innerStyle(inner: any): void {}
-  scoreStyle(score: any): void {}
-  statusStyle(status: any): void {}
+  outStyle(outer: any): void { }
+  innerStyle(inner: any): void { }
+  scoreStyle(score: any): void { }
+  statusStyle(status: any): void { }
   scoreTemplate(score: number): string {
     return score.toString();
   }
-  nextStyle(blocks: any): void {}
-  currentStyle(current: any): void {}
-  blockStyle(block: any): void {}
-  blockPointStyle(blockItem: any, point: Point): void {}
-  nextPointStyle(blockItem: any, point: Point): void {}
+  nextStyle(blocks: any): void { }
+  currentStyle(current: any): void { }
+  blockStyle(block: any): void { }
+  blockPointStyle(blockItem: any, point: Point): void { }
+  nextPointStyle(blockItem: any, point: Point): void { }
 }
 
 
