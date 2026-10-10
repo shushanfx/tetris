@@ -8,9 +8,7 @@
     "node": ">=14"
   },
   "workspaces": [
-    "packages/core",
-    "packages/*",
-    "app"
+    "packages/*"
   ],
   "scripts": {
     "build": "yarn workspaces run build",

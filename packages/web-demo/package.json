@@ -1,5 +1,5 @@
 {
-  "name": "app",
+  "name": "@shushanfx/tetris-web-demo",
   "private": true,
   "version": "1.0.3",
   "type": "module",

@@ -27,7 +27,7 @@ export class Game {
   stage: Stage;
   status: GameStatus;
   speed: number = 50;
-  tickTimer: number = 0;
+  tickTimer: ReturnType<typeof setInterval> | number = 0;
   tickCount: number = 0;
   tickMaxCount: number = 10;
   constructor(options: GameOptions) {
@@ -46,7 +46,7 @@ export class Game {
   start() {
     const { status } = this;
     if (status === GameStatus.RUNNING) {
-      return ;
+      return;
     }
     if (status === GameStatus.OVER
       || status === GameStatus.STOP) {
@@ -59,7 +59,6 @@ export class Game {
     this.status = GameStatus.RUNNING;
     this.tickCount = 0;
     this.canvas.update();
-    // @ts-ignore
     this.tickTimer = setInterval(() => {
       if (this.tickCount == 0) {
         // 处理向下
@@ -75,28 +74,28 @@ export class Game {
   }
   pause() {
     if (this.status === GameStatus.PAUSE) {
-      return ;
+      return;
     }
-    if (this.tickTimer > 0) {
+    if (this.tickTimer !== 0) {
       this.status = GameStatus.PAUSE;
-      clearTimeout(this.tickTimer);
+      clearInterval(this.tickTimer as ReturnType<typeof setInterval>);
       this.canvas.update();
       this.tickTimer = 0;
     }
   }
   stop() {
     if (this.status === GameStatus.STOP) {
-      return ;
+      return;
     }
-    if (this.tickTimer > 0) {
-      clearTimeout(this.tickTimer);
+    if (this.tickTimer !== 0) {
+      clearInterval(this.tickTimer as ReturnType<typeof setInterval>);
       this.tickTimer = 0;
     }
     this.status = GameStatus.STOP;
     this.canvas.update();
   }
   rotate() {
-    this.stage.rotate();  
+    this.stage.rotate();
     this.canvas.update();
   }
   move(direction: Direction) {
@@ -105,10 +104,10 @@ export class Game {
   }
   toggle() {
     if (this.status === GameStatus.PAUSE
-        || this.status === GameStatus.OVER
-        || this.status === GameStatus.STOP) {
+      || this.status === GameStatus.OVER
+      || this.status === GameStatus.STOP) {
       this.start();
-    } else if(this.status === GameStatus.RUNNING) {
+    } else if (this.status === GameStatus.RUNNING) {
       this.pause();
     }
   }
@@ -120,7 +119,8 @@ export class Game {
     const isOver = this.stage.isOver;
     if (isOver) {
       this.status = GameStatus.OVER;
-      clearInterval(this.tickTimer);
+      clearInterval(this.tickTimer as ReturnType<typeof setInterval>);
+      this.tickTimer = 0;
     }
   }
 }
